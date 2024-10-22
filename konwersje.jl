@@ -28,3 +28,11 @@ function konwersja_z_hex(tekst)
     end
     return macierz
 end
+
+function konwersja_na_string(macierz)
+    tekst = ""
+    for i in 1:16
+        tekst = string(tekst,Char(macierz[i]))
+    end
+    return tekst
+end

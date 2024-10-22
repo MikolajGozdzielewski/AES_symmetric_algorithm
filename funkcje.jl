@@ -12,6 +12,7 @@ end
 function s_box(liczba::UInt8)
     plik = open("sbox.txt","r")
     sbox = read(plik,String)
+    close(plik)
     liczba1 = mod(liczba,16)
     liczba2 = (liczba - mod(liczba,16)) / 16
     x = 1
@@ -41,4 +42,32 @@ function przesuniecie_w_lewo_macierz(macierz,wiersz,ile_razy)
         macierz[wiersz + 12] = buffor
     end
     return macierz
+end
+
+#PRZESUWA WIERSZ MACIERZY W PRAWO
+function przesuniecie_w_prawo_macierz(macierz,wiersz,ile_razy)
+    for i in 1:ile_razy
+        buffor = macierz[wiersz + 12]
+        for j in -3:-1
+            macierz[wiersz + 4 * -j] = macierz[wiersz + 4*(-j-1)]
+        end
+        macierz[wiersz] = buffor
+    end
+    return macierz
+end
+
+#PODMIENIA ZNAK W HEX NA ODPOWIEDNIK W TABLICY
+function s_box_odwrotny(liczba::UInt8)
+    plik = open("sboxo.txt","r")
+    sbox = read(plik,String)
+    close(plik)
+    liczba1 = mod(liczba,16)
+    liczba2 = (liczba - mod(liczba,16)) / 16
+    x = 1
+    while sbox[x] != '\n'
+        x = x +1
+    end
+    miejsce::Int = (liczba2) * x + ((liczba1) * 3) + 1
+    wy = parse(UInt8,sbox[miejsce:miejsce+1],base = 16) 
+    return wy
 end
