@@ -1,10 +1,3 @@
-#PRZYGOTOWANIE DO POPRAWY
-
-#const global A = 0x67452301
-#const global B = 2309737967
-#const global C = 4275878552
-#const global D = 1985229328
-
 const global A = 1732584193
 const global B = 4023233417
 const global C = 2562383102
