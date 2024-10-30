@@ -1,5 +1,5 @@
 function szyfrowanie(klucz,tekst)
-    tekst.macierz_tekstu = konwersja_tekstu(tekst.tekst_jawny)
+    #tekst.macierz_tekstu = konwersja_tekstu(tekst.tekst_jawny)
     tekst.macierz_tekstu = xor_macierzy(reshape(klucz.klucz_rozszerzony[1:16],(4,4)),tekst.macierz_tekstu)
     if klucz.dlugosc_klucza == 16
         klucz.iteracje = 10
@@ -33,7 +33,7 @@ function runda_szyfrujaca(tekst,klucz,ostatnia_runda::Bool)
 end
 
 function deszyfrowanie(klucz::klucz_sesji,tekst::teksts)
-    tekst.macierz_tekstu = konwersja_z_hex(tekst.tekst_zaszyfrowany)
+    #tekst.macierz_tekstu = konwersja_z_hex(tekst.tekst_zaszyfrowany)
 
     if klucz.dlugosc_klucza == 16
         klucz.iteracje = -10
@@ -49,7 +49,7 @@ function deszyfrowanie(klucz::klucz_sesji,tekst::teksts)
 
     tekst.macierz_tekstu = xor_macierzy(reshape(klucz.klucz_rozszerzony[1:16],(4,4)),tekst.macierz_tekstu)
 
-    tekst.tekst_jawny = konwersja_na_string(tekst.macierz_tekstu)
+    #tekst.tekst_jawny = konwersja_na_string(tekst.macierz_tekstu)
 end
 
 function runda_deszyfrujaca(tekst,klucz,ostatnia_runda::Bool)

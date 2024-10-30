@@ -1,6 +1,6 @@
 #ZAMIANA TEKSTU W UNICODE NA DECYMALNY
 function konwersja_tekstu(tekst)
-    macierz = zeros(4,4)
+    macierz = zeros(Int,4,4)
     dlugosc = length(tekst)
     for i in 1:dlugosc
         macierz[i] = codepoint(tekst[i])
@@ -22,7 +22,7 @@ function konwersja_na_hex(macierz)
 end
 
 function konwersja_z_hex(tekst)
-    macierz = zeros(4,4)
+    macierz = zeros(Int,4,4)
     for i in 1:16
         macierz[i] = parse(UInt8,tekst[(i-1)*2+1:(i-1)*2+2],base=16)
     end

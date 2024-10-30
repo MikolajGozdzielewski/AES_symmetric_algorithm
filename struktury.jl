@@ -10,3 +10,9 @@ mutable struct teksts
     macierz_tekstu::Matrix{UInt8}
     tekst_zaszyfrowany::String
 end
+
+mutable struct dane 
+    klucz::String
+    dane_we::String
+    dane_wy::String
+end
