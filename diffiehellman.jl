@@ -1,6 +1,8 @@
 using Primes
 include("generacjaklucza.jl")
 
+const global ile_bitow_wartosci_publicznej = 10;
+
 mutable struct liczby_dh
     a::UInt128
     b::UInt128
@@ -34,10 +36,10 @@ function losowanie_dh(liczby::liczby_dh)
     liczby.a = parse(UInt128,liczba,base=16)
     liczba = generacja_klucza(16)
     liczby.b = parse(UInt128,liczba,base=16)
-    liczba = generacja_klucza(16)
+    liczba = generacja_klucza(ile_bitow_wartosci_publicznej)
     liczby.p = parse(BigInt,liczba,base=16)
     while isprime(liczby.p) != 1
-        liczba = generacja_klucza(16)
+        liczba = generacja_klucza(ile_bitow_wartosci_publicznej)
         liczby.p = parse(BigInt,liczba,base=16)
     end
     return liczby

@@ -16,6 +16,7 @@ mutable struct sdane_s
     tekst_wpisywany::String
     tekst_z_pliku::String
     generuj::Int
+    generuj_DH::Bool
     tryb::String
     zapisz_klucz::String
     zapisz_szyfr::String
@@ -61,15 +62,14 @@ function komendy()
                             klucz = klucz_sesji(klucz_tymczasowy,zeros(Int(dlugosc_klucza)),dlugosc_klucza,0)
                         end
                     elseif dane_s.generuj != 0
-                        if dane_s.generuj == 16
-                            klucz_tymczasowy = string(diffiehellman(),base = 16)
-                            print("dh\n")
-                            klucz_tymczasowy = md5(klucz_tymczasowy)
-                            print("ms5\n")
-                            klucz = klucz_sesji(klucz_tymczasowy,zeros(16),16,0)
-                        else
-                            klucz = klucz_sesji(generacja_klucza(dane_s.generuj),zeros(dane_s.generuj),dane_s.generuj,0)
-                        end
+                        klucz = klucz_sesji(generacja_klucza(dane_s.generuj),zeros(dane_s.generuj),dane_s.generuj,0)
+                    elseif dane_s.generuj_DH == true
+                        print(1,"\n")
+                        klucz_tymczasowy = string(diffiehellman(),base = 16)
+                        print("dh\n")
+                        klucz_tymczasowy = md5(klucz_tymczasowy)
+                        print("ms5\n")
+                        klucz = klucz_sesji(klucz_tymczasowy,zeros(16),16,0)
                     end
                     #print(klucz.dlugosc_klucza,"\n")
                     if klucz.dlugosc_klucza == 16 || klucz.dlugosc_klucza == 24 || klucz.dlugosc_klucza == 32
@@ -166,7 +166,7 @@ function komendy()
 end
 
 function k_szyfrowanie(komenda)
-    dane = sdane_s("","","","",0,"","","",0)
+    dane = sdane_s("","","","",0,false,"","","",0)
     
     dlugosc = length(komenda)
     i = 2
@@ -204,6 +204,10 @@ function k_szyfrowanie(komenda)
                 break
             end
             i += 1
+        elseif komenda[i] == "-d"
+            i = i + 1
+            print(1,"\n")
+            dane.generuj_DH = true
         elseif komenda[i] == "-m"
             i = i + 1
             if komenda[i] == "ECB"
@@ -354,6 +358,9 @@ function poprawonosc_komendy_szyfrowanie(dane::sdane_s)
         suma_kontrolna_klucz += 1
     end
     if dane.generuj != 0
+        suma_kontrolna_klucz += 1
+    end
+    if dane.generuj_DH == true
         suma_kontrolna_klucz += 1
     end
     if dane.tekst_wpisywany != ""
