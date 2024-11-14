@@ -12,7 +12,7 @@ function rozszerzenie_klucza(klucz,dlugosc_klucza)
     elseif dlugosc_klucza == 24
         ilosc_powtorzen = 8
     elseif dlugosc_klucza == 32
-        ilosc_powtorzen = 9
+        ilosc_powtorzen = 7
     end
     for i in 1:ilosc_powtorzen
 

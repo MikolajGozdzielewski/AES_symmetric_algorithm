@@ -12,8 +12,8 @@ mutable struct struktury_md5
     K::Array{UInt32}
 end
 
-function md5()
-    wejscie = "6162636465666768696A6162636465666768696A6162636465666768696A6162636465666768696A6162636465666768696A"
+function md5(wejscie)
+    #wejscie = "2ebded642f62e87985da8265ffb7fa7"
     zmd5 = struktury_md5(A,B,C,D,przygotowanie_do_md5(wejscie),stale_K())
     zamiana(zmd5.wektor)
     for i in 1:64
@@ -23,9 +23,21 @@ function md5()
     czescB = string(dodawanie_modularne_32(B,zmd5.B),base=16)
     czescC = string(dodawanie_modularne_32(C,zmd5.C),base=16)
     czescD = string(dodawanie_modularne_32(D,zmd5.D),base=16)
+    while length(czescA) != 8
+        czescA = string(0,czescA)
+    end
+    while length(czescB) != 8
+        czescB = string(0,czescB)
+    end
+    while length(czescC) != 8
+        czescC = string(0,czescC)
+    end
+    while length(czescD) != 8
+        czescD = string(0,czescD)
+    end
     wynik = string(czescA,czescB,czescC,czescD)
     wynik = zamiana_string(wynik)
-    print(wynik)
+    return wynik
 end
 
 function przygotowanie_do_md5(wejscie)
@@ -36,7 +48,7 @@ function przygotowanie_do_md5(wejscie)
     wejscie = string(wejscie,"80")
 
     while mod(length(wejscie),8) != 0
-        wejscie = string(wejscie,"00")
+        wejscie = string(wejscie,"0")
     end
 
     for i in 1:Int(length(wejscie)/8)
@@ -150,4 +162,4 @@ function operacja(zmd5,i)
     zmd5.B = wynik
 end
 
-md5()
+#md5()

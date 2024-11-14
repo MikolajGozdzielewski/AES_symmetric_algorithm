@@ -22,9 +22,10 @@ function diffiehellman()
     liczby.ka = powermod(liczby.B,liczby.a,liczby.p)
     liczby.kb = powermod(liczby.A,liczby.b,liczby.p)
     if liczby.ka == liczby.kb
-        print(liczby.ka)
+        return(liczby.ka)
     else
         print("fail")
+        return 0
     end
 end
 
@@ -65,4 +66,4 @@ function pierwiastek_pierwotny(n)
     end
 end
 
-diffiehellman()
+#diffiehellman()

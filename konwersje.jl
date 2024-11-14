@@ -32,7 +32,11 @@ end
 function konwersja_na_string(macierz)
     tekst = ""
     for i in 1:16
-        tekst = string(tekst,Char(macierz[i]))
+        if macierz[i] != 0
+            tekst = string(tekst,Char(macierz[i]))
+        else
+            break
+        end
     end
     return tekst
 end
