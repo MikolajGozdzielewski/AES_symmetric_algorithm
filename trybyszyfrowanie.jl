@@ -6,9 +6,22 @@ function ecb(pelen_tekst,tekst,klucz)
         szyfrowanie(klucz,tekst)
         tekst_zaszyfrowany = string(tekst_zaszyfrowany,tekst.tekst_zaszyfrowany)
     end
+    if mod(length(pelen_tekst),16) == 0
+        tekst.macierz_tekstu = zeros(Int,4,4)
+        for i in 1:16
+            tekst.macierz_tekstu[i] = 16
+        end
+        szyfrowanie(klucz,tekst)
+        tekst_zaszyfrowany = string(tekst_zaszyfrowany,tekst.tekst_zaszyfrowany)
+    end
     if mod(length(pelen_tekst),16) != 0;
         tekst.tekst_jawny = string(pelen_tekst[16 * div(length(pelen_tekst),16) + 1:16 * div(length(pelen_tekst),16) + mod(length(pelen_tekst),16)])
         tekst.macierz_tekstu = konwersja_tekstu(tekst.tekst_jawny)
+        for i in 1:16
+            if tekst.macierz_tekstu[i] == 0
+                tekst.macierz_tekstu[i] = 16 - mod(length(pelen_tekst),16)
+            end
+        end
         szyfrowanie(klucz,tekst)
         tekst_zaszyfrowany = string(tekst_zaszyfrowany,tekst.tekst_zaszyfrowany)
     end
@@ -46,9 +59,24 @@ function cbc(pelen_tekst,tekst,klucz)
         wektoriv = konwersja_z_hex(tekst.tekst_zaszyfrowany)
     end
     
+    if mod(length(pelen_tekst),16) == 0
+        tekst.macierz_tekstu = zeros(Int,4,4)
+        for i in 1:16
+            tekst.macierz_tekstu[i] = 16
+        end
+        tekst.macierz_tekstu = xor_macierzy(wektoriv,tekst.macierz_tekstu)
+        szyfrowanie(klucz,tekst)
+        tekst_zaszyfrowany = string(tekst_zaszyfrowany,tekst.tekst_zaszyfrowany)
+    end
+
     if mod(length(pelen_tekst),16) != 0
         tekst.tekst_jawny = string(pelen_tekst[16 * div(length(pelen_tekst),16) + 1:16 * div(length(pelen_tekst),16) + mod(length(pelen_tekst),16)])
         tekst.macierz_tekstu = konwersja_tekstu(tekst.tekst_jawny)
+        for i in 1:16
+            if tekst.macierz_tekstu[i] == 0
+                tekst.macierz_tekstu[i] = 16 - mod(length(pelen_tekst),16)
+            end
+        end
         tekst.macierz_tekstu = xor_macierzy(wektoriv,tekst.macierz_tekstu)
         szyfrowanie(klucz,tekst)
         tekst_zaszyfrowany = string(tekst_zaszyfrowany,tekst.tekst_zaszyfrowany)
