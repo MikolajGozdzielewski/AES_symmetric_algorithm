@@ -17,7 +17,6 @@ end
 function diffiehellman()
     liczby = liczby_dh(0,0,0,0,0,0,0,0)
     liczby = losowanie_dh(liczby)
-    #print(liczby.a," ",liczby.b," ",liczby.p)
     liczby.g = pierwiastek_pierwotny(liczby.p)
     liczby.A = powermod(liczby.g,liczby.a,liczby.p)
     liczby.B = powermod(liczby.g,liczby.b,liczby.p)
@@ -46,10 +45,6 @@ function losowanie_dh(liczby::liczby_dh)
 end
 
 function pierwiastek_pierwotny(n)
-    if isprime(n) == 0
-        print("Liczba nie jest liczba pierwsza")
-        return 0
-    end
     if n == 2
         return 1
     end 
@@ -60,6 +55,7 @@ function pierwiastek_pierwotny(n)
         for j in phifactor
             if powermod(i,div(phi,j),n) == 1
                 znaleziony_pierwiastek = false
+                break;
             end
         end
         if znaleziony_pierwiastek == true
